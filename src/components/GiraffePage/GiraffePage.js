@@ -15,7 +15,7 @@ import UpdateHistory from "./UpdateHistory/UpdateHistory";
 
 export function GiraffePage(props) {
 
-    const [isHidden, setIsHidden] = useState(false)
+    const [isHidden, setIsHidden] = useState(true)
     const houses = useSelector(state => state.houses.houses)
     const dispatch = useDispatch();
 
