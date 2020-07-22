@@ -1,0 +1,20 @@
+
+@import "../../styles/sass/variables";
+
+.giraffe-page{
+  display: flex;
+  width: 1133px ;
+  height: 100vh;
+  background-color: $bg-color-main;
+  border-radius: $border-rad;
+  margin: 10px;
+  flex-direction: column;
+  .giraffe-page-header{
+    height: 58px;
+
+  }
+  .giraffe-page-container{
+
+  }
+
+}

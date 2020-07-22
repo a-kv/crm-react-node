@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  height: 40px;
+  position: relative;
+  justify-content: flex-start;
+}
+.header span {
+  margin-right: 7px;
+  position: relative;
+}
+.header .active-item {
+  color: green;
+  font-size: 20px;
+}
+.header .active-item:before {
+  content: "";
+  border-bottom: 3px solid #435F40;
+  position: absolute;
+  width: 82px;
+  bottom: 7px;
+  border-radius: 3px;
+}
+.header .unactive-item {
+  color: black;
+  font-size: 20px;
+}
+
+/*# sourceMappingURL=GuraffeHeader.css.map */

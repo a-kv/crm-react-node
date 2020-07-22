@@ -1,0 +1,129 @@
+@import "../../../../styles/sass/variables";
+
+.giraffe-card {
+  display: flex;
+
+
+  .card-item {
+    display: flex;
+    width: 236px;
+    height: 495px;
+    background-color: $bg-color-card;
+    border-radius: $border-rad;
+    flex-direction: column;
+    align-items: center;
+
+    &:hover {
+      height: 536px;
+      box-shadow: 0px 4px 15px #869CB0;
+      transition: 0.2s;
+    }
+
+    .card-ava {
+      height: 150px;
+      width: 150px;
+      border-radius: 75px;
+      background-color: #fff;
+      margin-top: 41px;
+
+    }
+
+    .card-name {
+      display: flex;
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 22px;
+      text-align: center;
+      color: #435F40;
+      //margin-top: 20px;
+    }
+
+    .card-icon {
+      display: flex;
+      justify-content: space-around;
+      width: 189px;
+      height: 39px;
+    }
+
+    .card-param {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 189px;
+      height: 39px;
+      background: #DCB18B;
+      border-radius: 20px;
+    }
+
+    .card-param-sec {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 189px;
+      height: 130px;
+      font-family: Roboto, sans-serif;
+      font-style: normal;
+      font-size: 15px;
+      color: #435F40;
+
+      span {
+        font-weight: bold;
+      }
+
+    }
+
+    .card-menu {
+      display: flex;
+      width: 90%;
+      justify-content: flex-end;
+
+      .menu-title {
+        position: relative;
+
+        .is-hidden {
+          position: absolute;
+          display: flex;
+          width: 174px;
+          height: 94px;
+          background-color: #668663;
+          border-radius: 20px;
+          color: white;
+
+          .card-menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+
+            .menu-item {
+              display: flex;
+              color: #FFFFFF;
+              width: 151px;
+              height: 32px;
+              justify-content: center;
+              align-self: center;
+
+              & button {
+                color: #FFFFFF;
+                background-color: rgba(255, 255, 255, 0);
+                font-family: Roboto, sans-serif;
+                font-style: normal;
+                font-weight: 300;
+                font-size: 14px;
+                line-height: 16px;
+                text-align: center;
+              }
+
+              &:hover {
+                background: #567354;
+                border-radius: 52px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

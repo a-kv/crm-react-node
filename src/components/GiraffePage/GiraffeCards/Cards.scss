@@ -1,0 +1,9 @@
+@import "../../../styles/sass/variables";
+
+.giraffe-cards {
+  display: flex;
+  flex-direction: row;
+  margin-left: 50px;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  }
