@@ -1,38 +1,54 @@
 import axios from 'axios';
-import {ContactListType, ContactType} from "../components/MainPage/ContactList/ContactList";
 
-const API_BASE_ADDRESS = 'https://test-app-contacts.herokuapp.com/contactsList';
-
-type CommonApiType<T> = {
-      items: ContactListType
-      data: T
-}
-export type GetContactListApiType = Array<ContactType>
-
+const API_BASE_ADDRESS = 'https://json-server-for-crm.herokuapp.com/';
 
 export const instance = axios.create({
     baseURL: API_BASE_ADDRESS,
 })
 
 export const api = {
-    createContact(title: string) {
-        return instance.post<CommonApiType<{ item: ContactType }>>('/', {title: title, tel: 'Entry number'}).then(res => res.data)
+    getHouses() {
+        return instance.get('/houses/').then(res => res.data)
     },
-    getContactsList() {
-        return instance.get<GetContactListApiType>('/').then(res => res.data)
+    getCards(houseId) {
+        return instance.get(`/houses/${houseId}/cards`).then(res => res.data)
     },
+    createHouse() {
+        return instance.post('/houses', {
+            name: 'Вольер',
+            filter: false,
+            cards: []
 
-    deleteContact(contactId: string) {
-        return instance.delete<CommonApiType<{}>>(`/${contactId}`).then(res => res.data)
+        }).then(res => res.data) //ok
     },
-
-    updateContactTitle(contactId: string, title: string) {
-        return instance.patch(`/${contactId}`, {title: title}).then(res => {
-            return  res.data
+    createCard(newCard, houseId) {
+        return instance.post(`/houses/${houseId}/cards`, {
+                name: 'Имя',
+                weight: '-',
+                sex: '-',
+                height: '-',
+                color: '-',
+                diet: '-',
+                temper: '-',
+                image: ''
+            }).then(res => res.data)
+    },
+    deleteCard(cardId) {
+        debugger
+        return instance.delete(`/cards/${cardId}`).then(res => {
+            debugger
+            return res.data
         })
     },
-    updateContactTel(contactId: string, tel: string) {
-        return instance.patch(`/${contactId}`, {tel: tel}).then(res => res.data)
-    }
 
+    updateCard(card, cardId) {
+        return instance.patch(`/cards/${cardId}`, card).then(res => {
+            return res
+        })
+    },
+    changeHouseFilter(houseId) {
+        return instance.get(`/houses/`).then(res => {
+            return res.data
+        })
+    },
 }

@@ -1,12 +1,12 @@
 import React from 'react';
-import './Main.scss';
+import './HomePage.scss';
 
 
-export function Main() {
+export function HomePage() {
 
     return (
-        <div className='main'>
-            <div>main</div>
+        <div className='homepage'>
+            <div>Главная</div>
         </div>
     );
 }

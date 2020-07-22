@@ -1,23 +1,21 @@
-import {v1} from "uuid";
 import {api} from "../api/api";
+import {stopSubmit} from "redux-form";
 
-export const ADD_HOUSE = "TodoList/Reducer/ADD-TODOLIST";
-export const DELETE_HOUSE = "TodoList/Reducer/DELETE-TODOLIST";
-export const DELETE_CARD = "TodoList/Reducer/DELETE-TASK";
-export const ADD_CARD = "TodoList/Reducer/ADD-TASK";
-export const UPDATE_CARD = "TodoList/Reducer/UPDATE-TASK";
-export const SET_HOUSES = "TodoList/Reducer/SET_TODOLISTS";
-export const SET_CARDS = "TodoList/Reducer/SET_TASKS";
-export const UPDATE_TITLE_HOUSE = "TodoList/Reducer/UPDATE_TITLE_TODOLIST";
+export const ADD_HOUSE = "reducer/ADD_HOUSE";
+export const DELETE_HOUSE = "reducer/DELETE-TODOLIST";
+export const DELETE_CARD = "reducer/DELETE-DELETE_CARD";
+export const ADD_CARD = "reducer/ADD-ADD_CARD";
+export const UPDATE_CARD = "reducer/UPDATE_CARD-TASK";
+export const SET_HOUSES = "reducer/SET_HOUSES";
+export const SET_CARDS = "reducer/SET_CARDS";
+export const UPDATE_TITLE_HOUSE = "reducer/UPDATE_TITLE_HOUSE";
+export const CHANGE_HOUSE_FILTER = "reducer/CHANGE_HOUSE_FILTER";
 
-/////////////////////////////променять!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 const initialState = {
     houses: []
 }
 
 export const GiraffeHouseReducer = (state = initialState, action) => {
-    let copyState = {...state};
-
     switch (action.type) {
         case SET_CARDS:
             return {
@@ -46,13 +44,15 @@ export const GiraffeHouseReducer = (state = initialState, action) => {
                 houses: state.houses.filter(h => h.id !== action.houseId)
             }
         case DELETE_CARD:
+            debugger
             return {
                 ...state,
                 houses: state.houses.map(h => {
                     if (h.id === action.houseId) {
+                        debugger
                         return {
                             ...h,
-                            cards: h.cards.filter(t => t.id !== action.cardId)
+                            cards: h.cards.filter(с => с.id !== action.cardId)
                         }
                     } else {
                         return h
@@ -60,18 +60,16 @@ export const GiraffeHouseReducer = (state = initialState, action) => {
                 })
             }
         case ADD_CARD:
-            let newCard = {
-                id: action.id,
-                name: 'Name',
-                weight: 800,
-                sex: 'M',
-                height: 4.9,
-                color: 'green',
-                diet: 'None',
-                temper: 'Wild',
-                image: 'giraffe_egor.jpg'
+            return {
+                ...state,
+                houses: state.houses.map(h => {
+                    if (h.id === action.houseId) {
+                        return {...h, cards: [action.newCard, ...h.cards ]}
+                    } else {
+                        return h
+                    }
+                })
             }
-            copyState[action.houseId] = [newCard, ...copyState[action.houseId]]
         case UPDATE_CARD:
             return {
                 ...state,
@@ -79,9 +77,9 @@ export const GiraffeHouseReducer = (state = initialState, action) => {
                     if (h.id === action.card.houseId) {
                         return {
                             ...h,
-                            cards: h.cards.map(t => {
-                                if (t.id !== action.card.id) {
-                                    return t;
+                            cards: h.cards.map(с => {
+                                if (с.id !== action.card.id) {
+                                    return с;
                                 } else {
                                     return action.card;
                                 }
@@ -92,35 +90,38 @@ export const GiraffeHouseReducer = (state = initialState, action) => {
                     }
                 })
             }
-        case UPDATE_TITLE_HOUSE: //start from bll
+        case CHANGE_HOUSE_FILTER:
             return {
-                ...state,
                 houses: state.houses.map(h => {
-                    if (h.id !== action.houseId) {
-                        return h;
+                    if (h.id !== action.houseId ) {
+                        return {
+                            ...h,
+                            filter: !h.filter
+                        }
                     } else {
-                        return {...h, name: action.name}
+                        return {
+                            ...h,
+                            filter: h.filter
+                        }
                     }
                 })
             }
-
+        default: return state
     }
-    // console.log("reducer: ", action);
-    return state;
 }
 
 
 export const setHousesAC = (houses) => {
     return {type: SET_HOUSES, houses}
 }
-export const addHouseAC = (newCard) => {
-    return {type: ADD_HOUSE, newCard}
+export const addHouseAC = (newHouse) => {
+    return {type: ADD_HOUSE, newHouse}
 }
 export const setCardsAC = (houseId, cards) => {
     return {type: SET_CARDS, houseId, cards: cards};
 }
-export const addCardSucsess = (newTask, houseId) => {
-    return {type: ADD_CARD, houseId, newTask};
+export const addCardSucsess = (newCard, houseId) => {
+    return {type: ADD_CARD, houseId, newCard};
 }
 export const updateCardAC = (card) => {
     return {type: UPDATE_CARD, card};
@@ -129,75 +130,64 @@ export const deleteHouseAC = (houseId) => {
     return {type: DELETE_HOUSE, todolistId: houseId};
 }
 export const deleteCardAC = (cardId, houseId) => {
+    debugger
     return {type: DELETE_CARD, cardId, houseId};
 }
 export const updateHouseAC = (name, houseId) => {
     return {type: UPDATE_TITLE_HOUSE, name, houseId};
 }
+export const changeHouseFilterAC = (houseId) => {
+    return {type: CHANGE_HOUSE_FILTER, houseId};
+}
 
 //Thunk
 //
-export const setHouses = ()=> (dispatch) => {
+export const setHouses = () => (dispatch) => {
     //request to server
     api.getHouses()
         .then(res => {
             dispatch(setHousesAC(res)) // undef
         });
 }
-// export const addHouse = (name)  => (dispatch) => {
-//     api.createHouse(name)
-//         .then(res => {
-//             let newCard = res.data.item;
-//             dispatch(addHouseAC(newCard))
-//         });
-// }
-export const getCards = (houseId)  => (dispatch) => {
+export const addNewHouse = ()  => (dispatch) => {
+    api.createHouse()
+        .then(res => {
+            let newHouse = res;
+            dispatch(addHouseAC(newHouse))
+        });
+}
+export const getCards = (houseId) => (dispatch) => {
     api.getCards(houseId)
         .then(res => {
-            dispatch(setCardsAC(houseId, res.items)); //items
+            dispatch(setCardsAC(houseId, res));
         });
 }
 //
-// export const addCard = (newText, houseId)  => (dispatch) => {
-//     api.createCard(newText, houseId)
-//         .then(res => {
-//             if (res.resultCode === 0) {
-//                 let newCard = res.data.item;
-//                 dispatch(addCardSucsess(newCard, houseId));
-//             }
-//         });
-// }
-// export const updateCard = (houseId, cardId, newCard) => (dispatch) => {
-//     api.updateCard(houseId, cardId, newCard)
-//         .then(res => {
-//             if (res.resultCode === 0) {
-//                 dispatch(updateCardAC(res.data.item));
-//             }
-//         });
-// }
-//
-// export const deleteHouse = (houseId)  => (dispatch) => {
-//     api.deleteHouse(houseId)
-//         .then(res => {
-//             if (res.resultCode === 0) {
-//                 dispatch(deleteHouseAC(houseId));
-//             }
-//         });
-// }
-// export const deleteCard = (cardId, houseId)  => (dispatch) => {
-//     api.deleteTodoList(houseId)
-//         .then(res => {
-//             if (res.resultCode === 0) {
-//                 dispatch(deleteCardAC(cardId, houseId));
-//             }
-//         });
-// }
-// export const updateHouse = (name, houseId) => (dispatch) => {
-//     api.updataHouse(name, houseId)
-//         .then(res => {
-//             if (res.resultCode === 0) {
-//                 debugger
-//                 dispatch(updateHouseAC(name, houseId));
-//             }
-//         });
-// }
+export const addCard = (newCard, houseId) => (dispatch) => {
+    api.createCard(newCard, houseId)
+        .then(res => {
+            let newCard = res
+            dispatch(addCardSucsess(newCard, houseId));
+        });
+}
+
+export const changeHouseFilter = (houseId) => (dispatch) => {
+    api.changeHouseFilter(houseId)
+        .then(res => {
+            dispatch(changeHouseFilterAC(houseId));
+        });
+}
+export const deleteCard = (cardId, houseId) =>   (dispatch) => {
+    debugger
+    api.deleteCard(cardId)
+        .then(res => {
+            dispatch(deleteCardAC(cardId, houseId ));
+        });
+}
+export const saveCard = (card, cardId) => async (dispatch) => {
+    const response = await api.updateCard(card)
+    dispatch(getCards(card, cardId))
+    dispatch(stopSubmit("edit-profile", {_error: response.data.messages[0]}));
+    return Promise.reject(response.data.messages[0]);
+};
+

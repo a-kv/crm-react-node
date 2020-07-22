@@ -1,20 +1,26 @@
 import React from 'react';
+import './CardInfo.scss';
 import {Field, reduxForm} from "redux-form";
+import sex from "../../../../assets/sex.png";
+import weight from "../../../../assets/weight.png";
+import height from "../../../../assets/height.png";
+import photo from "../../../../assets/photo.jpg";
+import {createField, Input} from "../../../common/forms-controls/FormsControl";
 
 
-function CardDataForm(props) {
+function CardDataForm( props) {
 
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form className='card-data' onSubmit={props.handleSubmit}>
 
             <div className='card-ava'>
-                {props.card.image}
+                <img src={props.card.image !== '' ? props.card.image : photo}/>
             </div>
             <div className='card-name'><Field component={'input'} placeholder={'Имя'} name='name'/></div>
             <div className='card-icon'>
-                <div>{props.card.sex}</div>
-                <div>{props.card.weight}</div>
-                <div>{props.card.height}</div>
+                <div><img src={sex} alt="home"/></div>
+                <div><img src={weight} alt="home"/></div>
+                <div><img src={height} alt="home"/></div>
             </div>
             <div className='card-param'>
                 <div><Field component='select' placeholder='Пол' name='sex'>
@@ -28,9 +34,10 @@ function CardDataForm(props) {
             </div>
 
             <div className='card-param-sec'>
-                <div><span>Цвет:</span><Field component={'input'} placeholder={'-'} name='color'/></div>
+                <div><span>Цвет:</span><Field className='color' component={'input'} placeholder={'-'} name='color'/></div>
                 <div><span>Диета: </span><Field component={'input'} placeholder={'-'} name='diet'/></div>
-                <div><span>Характр:</span><Field component={'input'} placeholder={'-'} name='temper'/></div>
+                {/*<div><span>Характер:</span><Field component={'input'} placeholder={'-'} name='temper'/></div>*/}
+                <div><span>Характер:</span>{createField('-', 'temper', Input ,  )}</div>
             </div>
             <button>Сохранить</button>
         </form>

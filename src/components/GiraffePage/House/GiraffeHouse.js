@@ -1,9 +1,9 @@
 import React, {useEffect} from "react";
-import {Cards} from "./GiraffeCards/Cards";
+import {Cards} from "../GiraffeCards/Cards";
 import './GiraffeHouse.scss';
 import {useDispatch} from "react-redux";
-import {addCard, deleteCard, getCards} from "../../redux/reducer";
-import Button from "../common/Button";
+import {addCard, deleteCard, getCards} from "../../../redux/reducer";
+import Button from "../../common/Button";
 
 export function GiraffeHouse(props) {
 
@@ -15,7 +15,7 @@ export function GiraffeHouse(props) {
         }
     }, [])
 
-    function removeCard(cardId, houseId) {
+    function removeCard(cardId) {
         debugger
         dispatch(deleteCard(cardId, props.id))
     }

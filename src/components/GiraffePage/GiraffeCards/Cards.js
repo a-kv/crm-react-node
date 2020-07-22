@@ -1,13 +1,11 @@
 import React from "react";
-import {GiraffeCard} from "./GiraffeCard/GiraffeCard";
-import './GiraffeCards.scss';
+import {Card} from "./Card/Card";
+import './Cards.scss';
 
-
-export function GiraffeCards(props) {
-
+export function Cards(props) {
 
     let myFn = (c) => {
-        return <GiraffeCard
+        return <Card
             key={c.id}
             id={c.id}
             card={c}
@@ -19,7 +17,6 @@ export function GiraffeCards(props) {
     return (
         <div className='giraffe-cards'>
                 {elements}
-
         </div>
     );
 }
