@@ -34,7 +34,6 @@ export const api = {
             }).then(res => res.data)
     },
     deleteCard(cardId) {
-        debugger
         return instance.delete(`/cards/${cardId}`).then(res => {
             debugger
             return res.data

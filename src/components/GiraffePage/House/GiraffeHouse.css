@@ -27,7 +27,7 @@
   color: #FFFFFF;
 }
 .giraffe-house .cards-header .add-btn:hover {
-  opacity: 80%;
+  background-color: rgba(102, 134, 99, 0.75);
 }
 
 /*# sourceMappingURL=GiraffeHouse.css.map */

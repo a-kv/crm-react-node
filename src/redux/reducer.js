@@ -44,7 +44,6 @@ export const GiraffeHouseReducer = (state = initialState, action) => {
                 houses: state.houses.filter(h => h.id !== action.houseId)
             }
         case DELETE_CARD:
-            debugger
             return {
                 ...state,
                 houses: state.houses.map(h => {
@@ -130,7 +129,6 @@ export const deleteHouseAC = (houseId) => {
     return {type: DELETE_HOUSE, todolistId: houseId};
 }
 export const deleteCardAC = (cardId, houseId) => {
-    debugger
     return {type: DELETE_CARD, cardId, houseId};
 }
 export const updateHouseAC = (name, houseId) => {
@@ -178,7 +176,6 @@ export const changeHouseFilter = (houseId) => (dispatch) => {
         });
 }
 export const deleteCard = (cardId, houseId) =>   (dispatch) => {
-    debugger
     api.deleteCard(cardId)
         .then(res => {
             dispatch(deleteCardAC(cardId, houseId ));
